@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
@@ -16,16 +17,29 @@ public class MainGameLoop extends JPanel implements ActionListener, KeyListener 
 	int yPos = 400;
 	boolean key[];
 	Shape shape;
+	Text gameOver;
+	Text menu;
 	GameStates states;
 	final int MENU_STATE = 0;
 	final int GAME_STATE = 1;
 	final int END_STATE = 2;
 	int CURRENT_STATE = MENU_STATE;
+	Rocketship rocket;
+	ObjectManager manager;
+	Alien alien;
 
 	public MainGameLoop(int fpsCap) {
 		timer = new Timer(fpsCap, this);
 		key = new boolean[999];
 		shape = new Shape(400, 400, 100, 100);
+		gameOver = new Text(400/2, 900/2, "Game Over", new Font(Font.SANS_SERIF, Font.PLAIN, 100));
+		menu = new Text(100/2, 900/2, "League Invaders", new Font(Font.SANS_SERIF, Font.PLAIN, 100));
+		rocket = new Rocketship(900/2-50, 800, 100, 100, 5);
+		alien = new Alien(0, 0, 100, 100);
+		manager = new ObjectManager();
+		manager.addObject(rocket);
+		manager.addObject(alien);
+		
 	}
 
 	public void startGame() {
@@ -34,7 +48,7 @@ public class MainGameLoop extends JPanel implements ActionListener, KeyListener 
 
 	public void paintComponent(Graphics g) {
 		g.setColor(Color.red);
-		shape.render(g);
+//		shape.render(g);
 		if (key[4]) {
 			System.out.println("Test.");
 		}
@@ -51,6 +65,11 @@ public class MainGameLoop extends JPanel implements ActionListener, KeyListener 
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		repaint();
+		if(key[2]){
+			rocket.setxPos(rocket.getxPos()+rocket.getSpeed());
+		} else if(key[3]){
+			rocket.setxPos(rocket.getxPos()-rocket.getSpeed());
+		}
 		if(CURRENT_STATE == MENU_STATE){
 			updateMenuState();
 		} else if(CURRENT_STATE == GAME_STATE){
@@ -86,6 +105,9 @@ public class MainGameLoop extends JPanel implements ActionListener, KeyListener 
 				CURRENT_STATE = MENU_STATE;
 			}
 		}
+		else if(e.getKeyCode() == e.VK_SPACE){
+			manager.addObject(new Projectile(rocket.getxPos()+rocket.getWidth()/2, rocket.getyPos()+rocket.getHeight()/2, 10, 10, 10));
+		}
 	}
 
 	@Override
@@ -109,7 +131,8 @@ public class MainGameLoop extends JPanel implements ActionListener, KeyListener 
 	}
 
 	public void updateGameState() {
-
+		manager.update();
+		manager.checkCollision();
 	}
 
 	public void updateEndState() {
@@ -117,17 +140,17 @@ public class MainGameLoop extends JPanel implements ActionListener, KeyListener 
 	}
 
 	public void drawMenuState(Graphics g) {
-			g.setColor(Color.red);
-			shape.render(g);
+		g.setColor(Color.blue);
+		menu.render(g);
 	}
 
 	public void drawGameState(Graphics g) {
-		g.setColor(Color.blue);
-		g.fillRect(200, 200, 100, 100);
+		manager.draw(g);
+		manager.manageEnemies();
 	}
 
 	public void drawEndState(Graphics g) {
-		g.setColor(Color.green);
-		shape.render(g);
+		g.setColor(Color.red);
+		gameOver.render(g);
 	}
 }
