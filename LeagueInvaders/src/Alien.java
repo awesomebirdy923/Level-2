@@ -10,13 +10,13 @@ public class Alien extends Shape{
 	}
 
 	public void render(Graphics g){
-		g.setColor(Color.yellow);
-		g.fillRect(getxPos(), getyPos(), getWidth(), getHeight());
+		g.drawImage(MainGameLoop.img[1], getxPos(), getyPos(), null);
 	}
 	
 	public void update(){
+		super.update();
 			setyPos(getyPos()+1);
-//			break;
+//			public void update(){
 	}
 	
 }

@@ -13,6 +13,8 @@ public class ObjectManager {
 	long enemyTimer = 0;
 	int enemySpawnTime = 1000;
 	
+
+	
 	public ObjectManager() {
 		objects = new ArrayList<Shape>();
 	}
@@ -88,4 +90,26 @@ public class ObjectManager {
 	public void reset(){
 		objects.clear();
 	}
+	
+	public void checkOnClick(int x, int y, boolean onClick){
+		for (int i = 0; i < objects.size(); i++) {
+			Shape o = objects.get(i);
+			if(o.collisionBox.inside(x, y) && onClick){
+				if(o instanceof QuitButton){
+					System.out.println("Hi.");
+					speak("Lol, noob get rekt.");
+					System.exit(0);				
+					}
+			}
+		}
+	}
+	
+	void speak(String words) {
+	  	  try {
+	  	   Runtime.getRuntime().exec("say " + words).waitFor();
+	  	  } catch (Exception e) {
+	  	   e.printStackTrace();
+	  	  }
+	   	}
+
 }

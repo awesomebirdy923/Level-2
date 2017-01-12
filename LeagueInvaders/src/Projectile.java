@@ -11,11 +11,11 @@ public boolean isAlive = true;
 	}
 
 	public void render(Graphics g){
-		g.setColor(Color.red);
-		g.fillOval(getxPos(), getyPos(), getWidth(), getHeight());
+		g.drawImage(MainGameLoop.img[2], getxPos(), getyPos(), null);
 	}
 	
 	public void update(){
+		super.update();
 		setyPos(getyPos()-getSpeed());
 		if(getyPos()<0){
 			isAlive = false;
