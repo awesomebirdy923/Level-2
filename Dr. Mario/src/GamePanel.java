@@ -1,11 +1,13 @@
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class GamePanel extends JPanel implements ActionListener {
+public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	static Timer timer;
 	private Shape pointlessSquare;
@@ -15,14 +17,18 @@ public class GamePanel extends JPanel implements ActionListener {
 	private final int LEVEL2_STATE = 3;
 	private ObjectManager manager;
 	private Pill pill;
-	
+	private Shape doctorKeith;
+	int spacePressed = 0;
+
 	public GamePanel(int fpsCap) {
+		doctorKeith = new Shape(700, 0, 300, 300);
 		timer = new Timer(fpsCap / 60, this);
-		pointlessSquare = new Shape(900 / 2, 900 / 2, 100, 100);
+		// pointlessSquare = new Shape(900 / 2, 900 / 2, 100, 100);
 		manager = new ObjectManager();
-		pill = new Pill(600/2, 600/2, 32, 32);
-		manager.addObject(pointlessSquare);
-		manager.addObject(pill);
+		// pill =
+		// manager.addObject(pointlessSquare);
+		// manager.addObject(pill);
+		manager.addObject(doctorKeith);
 		CURRENT_STATE = MENU_STATE;
 	}
 
@@ -58,6 +64,7 @@ public class GamePanel extends JPanel implements ActionListener {
 
 	public void paintMenuState(Graphics g) {
 		manager.draw(g);
+		// doctorKeith.render(g);
 	}
 
 	public void paintLevel1State(Graphics g) {
@@ -69,7 +76,7 @@ public class GamePanel extends JPanel implements ActionListener {
 	}
 
 	public void updateMenuState() {
-		
+
 	}
 
 	public void updateLevel1State() {
@@ -77,6 +84,34 @@ public class GamePanel extends JPanel implements ActionListener {
 	}
 
 	public void updateLevel2State() {
+
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		if (e.getKeyCode() == e.VK_SPACE) {
+			System.err.println(spacePressed);
+			if (spacePressed == 0) {
+				manager.addObject(new Pill(doctorKeith.getxPos() + 30, doctorKeith.getyPos() + 50, 32, 32));
+				spacePressed = 1;
+			} else if (spacePressed == 1) {
+				manager.getPill().setxPos(900 / 2);
+				manager.getPill().moving = true;
+				spacePressed = 0;
+			}
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
 
 	}
 
