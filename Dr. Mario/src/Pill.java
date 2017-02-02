@@ -3,6 +3,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 
@@ -10,6 +11,7 @@ public class Pill extends Shape {
 	public BufferedImage img = null;
 	private URL url = getClass().getResource("pill.png");
 	public boolean moving = false;
+	private int pillColor1 = new Random().nextInt(3);
 
 	public Pill(int xPos, int yPos, int width, int height) {
 		super(xPos, yPos, width, height);
