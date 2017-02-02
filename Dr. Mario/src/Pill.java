@@ -1,5 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
@@ -8,18 +10,24 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 
 public class Pill extends Shape {
+	int r = 0;
 	public BufferedImage img = null;
 	private URL url = getClass().getResource("pill.png");
 	public boolean moving = false;
-	private int pillColor1 = new Random().nextInt(3);
+	private int pillColor1;
+	private int pillColor2;
 
 	public Pill(int xPos, int yPos, int width, int height) {
-		super(xPos, yPos, width, height);
+		super(xPos, yPos, width, height, true);
 		super.update();
+		pillColor1 = new Random().nextInt(3)+1;
+		pillColor2 = new Random().nextInt(3)+1;		
 	}
 
 	public void render(Graphics g) {
 		// TODO Auto-generated method stub
+		r--;
+		Graphics2D g2d = (Graphics2D) g;
 		try {
 			img = ImageIO.read(url);
 		} catch (IOException e) {
@@ -27,13 +35,17 @@ public class Pill extends Shape {
 			e.printStackTrace();
 		}
 		tint(img);
-		g.drawImage(img, getxPos(), getyPos(), null);
+		AffineTransform at = new AffineTransform();
+//		g2d.drawImage(img, getxPos(), getyPos(), null);
+		at.translate(getxPos(), getyPos());
+//		at.rotate(Math.PI/r);
+		g2d.drawImage(img, at, null);
 		if (moving) {
 			setyPos(getyPos() + 2);
 		}
 	}
 
-	public static void tint(BufferedImage img) {
+	public void tint(BufferedImage img) {
 
 		for (int x = 0; x < img.getWidth(); x++) {
 			for (int y = 0; y < img.getHeight(); y++) {
@@ -41,15 +53,44 @@ public class Pill extends Shape {
 				Color color;
 
 				if (img.getRGB(x, y) == Color.white.getRGB()) {
-					color = Color.red;
-					Color brighter = color.brighter();
+					if(pillColor1 == 1){
+						color = Color.red;
+						Color brighter = color.brighter();
 
-					img.setRGB(x, y, brighter.getRGB());
+						img.setRGB(x, y, brighter.getRGB());
+					}
+					else if(pillColor1 == 2){
+						color = Color.green;
+						Color brighter = color.brighter();
+
+						img.setRGB(x, y, brighter.getRGB());
+					}
+					else if(pillColor1 == 3){
+						color = Color.blue;
+						Color brighter = color.brighter();
+
+						img.setRGB(x, y, brighter.getRGB());
+					}
+
 				} else if (img.getRGB(x, y) == new Color(71, 255, 0).getRGB()) {
-					color = Color.blue;
-					Color brighter = color.brighter();
+					if(pillColor2 == 1){
+						color = Color.red;
+						Color brighter = color.brighter();
 
-					img.setRGB(x, y, brighter.getRGB());
+						img.setRGB(x, y, brighter.getRGB());
+					}
+					else if(pillColor2 == 2){
+						color = Color.green;
+						Color brighter = color.brighter();
+
+						img.setRGB(x, y, brighter.getRGB());
+					}
+					else if(pillColor2 == 3){
+						color = Color.blue;
+						Color brighter = color.brighter();
+
+						img.setRGB(x, y, brighter.getRGB());
+					}
 				}
 
 				// do something with the color :) (change the hue, saturation

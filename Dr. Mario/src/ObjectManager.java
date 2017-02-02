@@ -34,6 +34,7 @@ public class ObjectManager {
 		for (int i = 0; i < objects.size(); i++) {
 			Shape o = objects.get(i);
 			o.render(g);
+//			o.renderAsImage(g);
 		}
 	}
 

@@ -3,7 +3,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -19,15 +23,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	private Pill pill;
 	private Shape doctorKeith;
 	int spacePressed = 0;
+	URL url = getClass().getResource("dr_keith_pink.png");
 
 	public GamePanel(int fpsCap) {
-		doctorKeith = new Shape(700, 0, 300, 300);
+		doctorKeith = new Shape(700, 0, 300, 300, true);
 		timer = new Timer(fpsCap / 60, this);
 		// pointlessSquare = new Shape(900 / 2, 900 / 2, 100, 100);
 		manager = new ObjectManager();
 		// pill =
 		// manager.addObject(pointlessSquare);
 		// manager.addObject(pill);
+		doctorKeith.setImage("dr_keith_pink.png");
 		manager.addObject(doctorKeith);
 		CURRENT_STATE = MENU_STATE;
 	}
