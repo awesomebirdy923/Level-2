@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.net.URL;
 
 import javax.sound.sampled.AudioInputStream;
@@ -12,7 +14,7 @@ import javax.sound.sampled.Clip;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class GamePanel extends JPanel implements ActionListener, KeyListener {
+public class GamePanel extends JPanel implements ActionListener, KeyListener, MouseMotionListener {
 
 	static Timer timer;
 	private Shape pointlessSquare;
@@ -29,6 +31,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	private Shape border;
 	private Shape title;
 	private Shape jar;
+	private Shape[][] grid;
 
 	public GamePanel(int fpsCap) {
 		playSound("theme.wav");
@@ -41,6 +44,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		manager = new ObjectManager();
 		background = new Shape(0, 0, 900, 900, true);
 		background.setImage("Background.png");
+		grid = new Shape[10][10];
 		// pill =
 		// manager.addObject(pointlessSquare);
 		// manager.addObject(pill);
@@ -53,6 +57,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		manager.addObject(border);
 		manager.addObject(doctorKeith);
 		manager.addObject(jar);
+		grid[9][9] = new Pill(450, 792, 32, 32);
 		CURRENT_STATE = MENU_STATE;
 	}
 
@@ -156,6 +161,21 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				}
 			}
 		}).start();
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		// TODO Auto-generated method stub
+		int mouseX = e.getX();
+		int mouseY = e.getY();
+
+		System.out.println("x = " + manager.getPill().getxPos() + " y = " + manager.getPill().getyPos());
 	}
 
 }

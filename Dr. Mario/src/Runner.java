@@ -14,6 +14,7 @@ public class Runner {
 		frame.add(game);
 		frame.setVisible(true);
 		frame.addKeyListener(game);
+		frame.addMouseMotionListener(game);
 		frame.setResizable(false);
 
 	}
