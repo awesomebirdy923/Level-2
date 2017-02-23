@@ -32,6 +32,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	private Shape title;
 	private Shape jar;
 	private Shape[][] grid;
+	private int frames = 0;
 
 	public GamePanel(int fpsCap) {
 		playSound("theme.wav");
@@ -69,6 +70,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		repaint();
+		frames++;
+		// System.out.println(frames);
 		if (CURRENT_STATE == MENU_STATE) {
 			updateMenuState();
 		} else if (CURRENT_STATE == LEVEL1_STATE) {
@@ -94,6 +97,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 
 	public void paintMenuState(Graphics g) {
 		manager.draw(g);
+
 		// doctorKeith.render(g);
 	}
 
@@ -106,7 +110,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	}
 
 	public void updateMenuState() {
+		int width = Runner.frame.getWidth() + 352;
+		int height = Runner.frame.getHeight() + 607;
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
 
+			}
+		}
 	}
 
 	public void updateLevel1State() {
@@ -127,7 +137,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getKeyCode() == e.VK_SPACE) {
-			System.err.println(spacePressed);
+			// System.err.println(spacePressed);
 			if (spacePressed == 0) {
 				manager.addObject(new Pill(doctorKeith.getxPos() + 30, doctorKeith.getyPos() + 50, 32, 32));
 				spacePressed = 1;
@@ -136,6 +146,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 				manager.getPill().moving = true;
 				spacePressed = 0;
 			}
+		} else if (e.getKeyCode() == e.VK_LEFT) {
+			System.out.println("Hi.");
+			manager.getPill().setxPos(manager.getPill().getxPos() - 10);
+		} else if (e.getKeyCode() == e.VK_RIGHT) {
+			System.out.println("Hi.");
+			manager.getPill().setxPos(manager.getPill().getxPos() + 10);
+		} else if (e.getKeyCode() == e.VK_DOWN) {
+			System.out.println("Hi.");
+			manager.getPill().setyPos(manager.getPill().getyPos() + 20);
 		}
 	}
 
@@ -157,7 +176,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 					clip.start();
 					clip.setLoopPoints(0, -1);
 				} catch (Exception e) {
-					System.err.println(e.getMessage());
+					// System.err.println(e.getMessage());
 				}
 			}
 		}).start();
@@ -175,7 +194,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		int mouseX = e.getX();
 		int mouseY = e.getY();
 
-		System.out.println("x = " + manager.getPill().getxPos() + " y = " + manager.getPill().getyPos());
+		System.out.println(mouseY);
+
+		// System.out.println("x = " + manager.getPill().getxPos() + " y = " +
+		// manager.getPill().getyPos());
 	}
 
 }

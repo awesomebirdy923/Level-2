@@ -2,7 +2,7 @@ import javax.swing.JFrame;
 
 public class Runner {
 
-	private JFrame frame;
+	public static JFrame frame;
 	private static GamePanel game;
 
 	public Runner() {
