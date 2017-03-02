@@ -32,6 +32,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	private Shape title;
 	private Shape jar;
 	private Shape[][] grid;
+	private PillHalf pillHalf;
 	private int frames = 0;
 
 	public GamePanel(int fpsCap) {
@@ -40,6 +41,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		doctorKeith = new Shape(700, 100, 300 / 2, 300 / 2, true);
 		title = new Shape(100, 0, 1, 1, true);
 		jar = new Shape(900 / 2 / 2, 400, 1, 1, true);
+		pillHalf = new PillHalf(800/2, 800/2, 50, 50);
 		timer = new Timer(fpsCap / 60, this);
 		// pointlessSquare = new Shape(900 / 2, 900 / 2, 100, 100);
 		manager = new ObjectManager();
@@ -54,9 +56,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		border.setImage("keith_border.png");
 		title.setImage("dr_keith_title.png");
 		jar.setImage("jar.png");
+		pillHalf.setImage("pill_half.gif");
 		manager.addObject(title);
 		manager.addObject(border);
 		manager.addObject(doctorKeith);
+		manager.addObject(pillHalf);
 		manager.addObject(jar);
 		grid[9][9] = new Pill(450, 792, 32, 32);
 		CURRENT_STATE = MENU_STATE;
