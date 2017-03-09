@@ -48,6 +48,9 @@ public class PillHalf extends Shape {
 		g2d.drawImage(img, at, null);
 		if (moving && getyPos() <= 843 - getHeight() - 20) {
 			setyPos(getyPos() + 2);
+		} else{
+			
+			
 		}
 	}
 

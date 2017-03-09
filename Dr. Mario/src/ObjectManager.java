@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public class ObjectManager {
 	ArrayList<Shape> objects;
+	ArrayList<Pill> pills;
 
 	private int score = 0;
 
@@ -14,10 +15,15 @@ public class ObjectManager {
 
 	public ObjectManager() {
 		objects = new ArrayList<Shape>();
+		pills = new ArrayList<Pill>();
 	}
 
 	public void addObject(Shape o) {
 		objects.add(o);
+	}
+	
+	public void addPills(Pill o) {
+		pills.add(o);
 	}
 
 	public void update() {
@@ -35,6 +41,9 @@ public class ObjectManager {
 			Shape o = objects.get(i);
 			o.render(g);
 //			o.renderAsImage(g);
+		} for(int i = 0; i < pills.size(); i++){
+			Pill p = pills.get(i);
+			p.render(g);
 		}
 	}
 
@@ -113,8 +122,8 @@ public class ObjectManager {
 	}
 
 	public Pill getPill() {
-		for (int i = objects.size() - 1; i >= 0; i--) {
-			Shape pill = objects.get(i);
+		for (int i = pills.size() - 1; i >= 0; i--) {
+			Shape pill = pills.get(i);
 			if (pill instanceof Pill) {
 				return (Pill) pill;
 			}
@@ -122,4 +131,13 @@ public class ObjectManager {
 		return null;
 	}
 
+	boolean isPillFalling(){
+		for(Pill o : pills){
+			if(o.isPillFalling){
+			return true;	
+			} 
+		}
+		return false;
+	}
+	
 }

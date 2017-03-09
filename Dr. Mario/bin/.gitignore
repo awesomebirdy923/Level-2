@@ -3,6 +3,7 @@
 /GamePanel.class
 /ObjectManager.class
 /Pill.class
+/PillHalf.class
 /Runner.class
 /Shape.class
 /dr_keith.png
@@ -11,7 +12,6 @@
 /jar.png
 /keith_border.png
 /pill.png
-/theme.wav
 /pill_half.gif
-/PillHalf.class
 /pill_half.png
+/theme.wav

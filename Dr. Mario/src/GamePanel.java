@@ -34,6 +34,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	private Shape[][] grid;
 	private PillHalf pillHalf;
 	private int frames = 0;
+	private Pill p;
 
 	public GamePanel(int fpsCap) {
 		playSound("theme.wav");
@@ -75,6 +76,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		// TODO Auto-generated method stub
 		repaint();
 		frames++;
+//		System.out.println(manager.isPillFalling());
 		// System.out.println(frames);
 		if (CURRENT_STATE == MENU_STATE) {
 			updateMenuState();
@@ -142,14 +144,29 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		// TODO Auto-generated method stub
 		if (e.getKeyCode() == e.VK_SPACE) {
 			// System.err.println(spacePressed);
+//			if(!manager.getPill().inScene && manager.getPill()){
+			
+			System.out.println(manager.isPillFalling());
 			if (spacePressed == 0) {
-				manager.addObject(new Pill(doctorKeith.getxPos() + 30, doctorKeith.getyPos() + 50, 32, 32));
+				if (!manager.isPillFalling()){
+//					manager.addObject(new Pill(doctorKeith.getxPos() + 30, doctorKeith.getyPos() + 50, 32, 32));
+					p = new Pill(doctorKeith.getxPos() + 30, doctorKeith.getyPos() + 50, 32, 32);
+					manager.addPills(p);
+					System.out.println(p.isPillFalling);
+					
 				spacePressed = 1;
+
+				}
 			} else if (spacePressed == 1) {
-				manager.getPill().setxPos(900 / 2);
-				manager.getPill().moving = true;
+				if (!manager.isPillFalling()){
+				p.setxPos(900 / 2);
+				p.moving = true;
 				spacePressed = 0;
+				p.isPillFalling = true;
+//				manager.getPill().setisPillFalling(true);
+				}
 			}
+//			}
 		} else if (e.getKeyCode() == e.VK_LEFT) {
 			System.out.println("Hi.");
 			manager.getPill().setxPos(manager.getPill().getxPos() - 10);

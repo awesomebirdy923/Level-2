@@ -19,6 +19,7 @@ public class Pill extends Shape {
 	private int pillColor2;
 	private Rectangle hitBox1;
 	private Rectangle hitBox2;
+	public boolean isPillFalling = false;
 
 	public Pill(int xPos, int yPos, int width, int height) {
 		super(xPos, yPos, width, height, true);
@@ -29,8 +30,17 @@ public class Pill extends Shape {
 		hitBox2 = new Rectangle(xPos, yPos, width, height);
 	}
 
+	public boolean isisPillFalling() {
+		return isPillFalling;
+	}
+
+	public void setisPillFalling(boolean isPillFalling) {
+		this.isPillFalling = isPillFalling;
+	}
+
 	public void render(Graphics g) {
 		// TODO Auto-generated method stub
+		//System.out.println("Hi.");
 		r--;
 		Graphics2D g2d = (Graphics2D) g;
 		try {
@@ -47,6 +57,8 @@ public class Pill extends Shape {
 		g2d.drawImage(img, at, null);
 		if (moving && getyPos() <= 843 - getHeight() - 20) {
 			setyPos(getyPos() + 2);
+		} else{
+			isPillFalling = false;
 		}
 	}
 
