@@ -42,7 +42,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		doctorKeith = new Shape(700, 100, 300 / 2, 300 / 2, true);
 		title = new Shape(100, 0, 1, 1, true);
 		jar = new Shape(900 / 2 / 2, 400, 1, 1, true);
-		pillHalf = new PillHalf(800/2, 800/2, 50, 50);
+		pillHalf = new PillHalf(800/2, 800/2, 20*3-14, 20*3-14);
 		timer = new Timer(fpsCap / 60, this);
 		// pointlessSquare = new Shape(900 / 2, 900 / 2, 100, 100);
 		manager = new ObjectManager();
@@ -57,7 +57,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		border.setImage("keith_border.png");
 		title.setImage("dr_keith_title.png");
 		jar.setImage("jar.png");
-		pillHalf.setImage("pill_half.gif");
+		pillHalf.setImage("pill_half3.png");
 		manager.addObject(title);
 		manager.addObject(border);
 		manager.addObject(doctorKeith);
@@ -65,6 +65,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		manager.addObject(jar);
 		grid[9][9] = new Pill(450, 792, 32, 32);
 		CURRENT_STATE = MENU_STATE;
+		System.out.println("Width = " + pillHalf.getWidth() + ", Height = " + pillHalf.getHeight());
 	}
 
 	public static void startLoop() {
@@ -167,10 +168,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 				}
 			}
 //			}
-		} else if (e.getKeyCode() == e.VK_LEFT) {
+		} else if (e.getKeyCode() == e.VK_LEFT && manager.getPill().isPillFalling == true) {
 			System.out.println("Hi.");
 			manager.getPill().setxPos(manager.getPill().getxPos() - 10);
-		} else if (e.getKeyCode() == e.VK_RIGHT) {
+		} else if (e.getKeyCode() == e.VK_RIGHT && manager.getPill().isPillFalling == true) {
 			System.out.println("Hi.");
 			manager.getPill().setxPos(manager.getPill().getxPos() + 10);
 		} else if (e.getKeyCode() == e.VK_DOWN) {

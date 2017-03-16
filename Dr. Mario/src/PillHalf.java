@@ -13,7 +13,7 @@ import javax.imageio.ImageIO;
 public class PillHalf extends Shape {
 	int r = 0;
 	public BufferedImage img = null;
-	private URL url = getClass().getResource("pill_half.png");
+	private URL url = getClass().getResource("pill_half3.png");
 	public boolean moving = false;
 	private int PillHalfColor1;
 	private int PillHalfColor2;
@@ -41,15 +41,15 @@ public class PillHalf extends Shape {
 			e.printStackTrace();
 		}
 		tint(img);
-		AffineTransform at = new AffineTransform();
+//		AffineTransform at = new AffineTransform();
 		// g2d.drawImage(img, getxPos(), getyPos(), null);
-		at.translate(getxPos(), getyPos());
+//		at.translate(getxPos(), getyPos());
+		
 		// at.rotate(Math.PI/r);
-		g2d.drawImage(img, at, null);
+		g2d.drawImage(img, getxPos(), getyPos(), getWidth(), getHeight(), null);
 		if (moving && getyPos() <= 843 - getHeight() - 20) {
 			setyPos(getyPos() + 2);
 		} else{
-			
 			
 		}
 	}
