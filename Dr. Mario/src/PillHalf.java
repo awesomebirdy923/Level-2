@@ -13,12 +13,13 @@ import javax.imageio.ImageIO;
 public class PillHalf extends Shape {
 	int r = 0;
 	public BufferedImage img = null;
-	private URL url = getClass().getResource("pill_half3.png");
+	private URL url = getClass().getResource("Pill_Half.png");
 	public boolean moving = false;
 	private int PillHalfColor1;
 	private int PillHalfColor2;
 	private Rectangle hitBox1;
 	private Rectangle hitBox2;
+	private Rectangle collisionBox;
 
 	public PillHalf(int xPos, int yPos, int width, int height) {
 		super(xPos, yPos, width, height, true);
@@ -109,9 +110,12 @@ public class PillHalf extends Shape {
 		}
 	}
 
+	
+
 	public void update() {
 		hitBox1 = new Rectangle(getxPos(), getyPos(), getWidth() / 2, getHeight() / 2);
 		hitBox2 = new Rectangle(getxPos(), getyPos() + getHeight() / 2, getWidth(), getHeight() / 2);
+		collisionBox = new Rectangle(getxPos(), getyPos(), getWidth(), getHeight());
 	}
 
 }

@@ -1,5 +1,3 @@
-/Alien.class
-/GameStates.class
 /MainGameLoop.class
 /ObjectManager.class
 /Projectile.class
@@ -8,6 +6,3 @@
 /Runner.class
 /Shape.class
 /Text.class
-/alien.png
-/bullet.png
-/rocket.png

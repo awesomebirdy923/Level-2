@@ -58,7 +58,7 @@ public class Pill extends Shape {
 		if (moving && getyPos() <= 843 - getHeight() - 20) {
 			setyPos(getyPos() + 2);
 		} else{
-			isPillFalling = false;
+			moving = false;
 		}
 	}
 
@@ -118,8 +118,9 @@ public class Pill extends Shape {
 	}
 
 	public void update() {
-		hitBox1 = new Rectangle(getxPos(), getyPos(), getWidth() / 2, getHeight() / 2);
-		hitBox2 = new Rectangle(getxPos(), getyPos() + getHeight() / 2, getWidth(), getHeight() / 2);
+//		hitBox1 = new Rectangle(getxPos(), getyPos(), getWidth() / 2, getHeight() / 2);
+//		hitBox2 = new Rectangle(getxPos(), getyPos() + getHeight() / 2, getWidth(), getHeight() / 2);
+		collisionBox = new Rectangle(getxPos(), getyPos(), getWidth(), getHeight());
 	}
 
 }

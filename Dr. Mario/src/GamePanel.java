@@ -57,7 +57,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		border.setImage("keith_border.png");
 		title.setImage("dr_keith_title.png");
 		jar.setImage("jar.png");
-		pillHalf.setImage("pill_half3.png");
+		pillHalf.setImage("pill_half.gif");
 		manager.addObject(title);
 		manager.addObject(border);
 		manager.addObject(doctorKeith);
@@ -77,7 +77,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		// TODO Auto-generated method stub
 		repaint();
 		frames++;
-//		System.out.println(manager.isPillFalling());
+		manager.managePillCollision();
+//		System.out.println(manager.moving());
 		// System.out.println(frames);
 		if (CURRENT_STATE == MENU_STATE) {
 			updateMenuState();
@@ -147,31 +148,32 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			// System.err.println(spacePressed);
 //			if(!manager.getPill().inScene && manager.getPill()){
 			
-			System.out.println(manager.isPillFalling());
+//			System.out.println(manager.getPill().moving);
 			if (spacePressed == 0) {
-				if (!manager.isPillFalling()){
+				if (!manager.getPill().moving){
 //					manager.addObject(new Pill(doctorKeith.getxPos() + 30, doctorKeith.getyPos() + 50, 32, 32));
 					p = new Pill(doctorKeith.getxPos() + 30, doctorKeith.getyPos() + 50, 32, 32);
 					manager.addPills(p);
-					System.out.println(p.isPillFalling);
+					manager.movingPill = p;
+					System.out.println(p.moving);
 					
 				spacePressed = 1;
 
 				}
 			} else if (spacePressed == 1) {
-				if (!manager.isPillFalling()){
+				if (!manager.getPill().moving){
 				p.setxPos(900 / 2);
 				p.moving = true;
 				spacePressed = 0;
-				p.isPillFalling = true;
-//				manager.getPill().setisPillFalling(true);
+				p.moving = true;
+//				manager.getPill().setmoving(true);
 				}
 			}
 //			}
-		} else if (e.getKeyCode() == e.VK_LEFT && manager.getPill().isPillFalling == true) {
+		} else if (e.getKeyCode() == e.VK_LEFT && manager.getPill().moving == true) {
 			System.out.println("Hi.");
 			manager.getPill().setxPos(manager.getPill().getxPos() - 10);
-		} else if (e.getKeyCode() == e.VK_RIGHT && manager.getPill().isPillFalling == true) {
+		} else if (e.getKeyCode() == e.VK_RIGHT && manager.getPill().moving == true) {
 			System.out.println("Hi.");
 			manager.getPill().setxPos(manager.getPill().getxPos() + 10);
 		} else if (e.getKeyCode() == e.VK_DOWN) {
@@ -222,4 +224,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		// manager.getPill().getyPos());
 	}
 
+	public Pill getMovingPill(){
+		return p;
+	}
+	
 }

@@ -13,6 +13,8 @@ public class ObjectManager {
 	long enemyTimer = 0;
 	int enemySpawnTime = 1000;
 
+	public Pill movingPill;
+	
 	public ObjectManager() {
 		objects = new ArrayList<Shape>();
 		pills = new ArrayList<Pill>();
@@ -122,22 +124,46 @@ public class ObjectManager {
 	}
 
 	public Pill getPill() {
+		if(pills.size() > 0){
 		for (int i = pills.size() - 1; i >= 0; i--) {
 			Shape pill = pills.get(i);
 			if (pill instanceof Pill) {
 				return (Pill) pill;
 			}
 		}
+		}
 		return null;
 	}
 
 	boolean isPillFalling(){
 		for(Pill o : pills){
-			if(o.isPillFalling){
+			if(o.moving){
 			return true;	
 			} 
 		}
 		return false;
+	}
+	
+	void managePillCollision(){
+		
+		for (int i = pills.size() - 1; i >= 0; i--){
+			Pill p = pills.get(i);
+			if(p != movingPill){
+			if(p.collisionBox.intersects(movingPill.collisionBox)){
+				System.out.println("sdfghjkl;");
+				movingPill.moving = false;
+			}
+			}
+		}
+//		System.out.println("Moving: " + movingPill.moving);
+	}
+	
+	void managePillHalfCollision(){
+		for (Shape p: objects){
+			if(p instanceof PillHalf){
+//				if(p.collisionBox.intersects(p)){}
+			}
+		}
 	}
 	
 }
