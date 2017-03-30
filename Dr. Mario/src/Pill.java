@@ -13,13 +13,13 @@ import javax.imageio.ImageIO;
 public class Pill extends Shape {
 	int r = 0;
 	public BufferedImage img = null;
-	private URL url = getClass().getResource("pill.png");
+	// private URL url = getClass().getResource("pill.png");
 	public boolean moving = false;
 	private int pillColor1;
 	private int pillColor2;
 	private Rectangle hitBox1;
 	private Rectangle hitBox2;
-	public boolean isPillFalling = false;
+	public boolean isPillFalling = true;
 
 	public Pill(int xPos, int yPos, int width, int height) {
 		super(xPos, yPos, width, height, true);
@@ -27,7 +27,14 @@ public class Pill extends Shape {
 		pillColor1 = new Random().nextInt(3) + 1;
 		pillColor2 = new Random().nextInt(3) + 1;
 		hitBox1 = new Rectangle(xPos, yPos, width, height);
-		hitBox2 = new Rectangle(xPos, yPos, width, height);
+		try {
+			img = ImageIO.read(this.getClass().getResourceAsStream("pill.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		tint(img);
+		// hitBox2 = new Rectangle(xPos, yPos, width, height);
 	}
 
 	public boolean isisPillFalling() {
@@ -40,26 +47,25 @@ public class Pill extends Shape {
 
 	public void render(Graphics g) {
 		// TODO Auto-generated method stub
-		//System.out.println("Hi.");
-		r--;
-		Graphics2D g2d = (Graphics2D) g;
-		try {
-			img = ImageIO.read(url);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		tint(img);
-		AffineTransform at = new AffineTransform();
-		// g2d.drawImage(img, getxPos(), getyPos(), null);
-		at.translate(getxPos(), getyPos());
-		// at.rotate(Math.PI/r);
-		g2d.drawImage(img, at, null);
-		if (moving && getyPos() <= 843 - getHeight() - 20) {
-			setyPos(getyPos() + 2);
-		} else{
-			moving = false;
-		}
+		g.drawImage(img, getxPos(), getyPos(), null);
+		// System.out.println("Hi.");
+//		r--;
+//		Graphics2D g2d = (Graphics2D) g;
+//		tint(img);
+//		AffineTransform at = new AffineTransform();
+//		// g2d.drawImage(img, getxPos(), getyPos(), null);
+//		at.translate(getxPos(), getyPos());
+//		// at.rotate(Math.PI/r);
+//		g2d.drawImage(img, at, null);
+		// if (moving && getyPos() <= 843 - getHeight() - 20) {
+		// setyPos(getyPos() + 2);
+		// } else{
+		// moving = false;
+		// }
+	}
+
+	public void setImage(URL url) {
+
 	}
 
 	public void tint(BufferedImage img) {
@@ -118,8 +124,17 @@ public class Pill extends Shape {
 	}
 
 	public void update() {
-//		hitBox1 = new Rectangle(getxPos(), getyPos(), getWidth() / 2, getHeight() / 2);
-//		hitBox2 = new Rectangle(getxPos(), getyPos() + getHeight() / 2, getWidth(), getHeight() / 2);
+		// hitBox1 = new Rectangle(getxPos(), getyPos(), getWidth() / 2,
+		// getHeight() / 2);
+		// hitBox2 = new Rectangle(getxPos(), getyPos() + getHeight() / 2,
+		// getWidth(), getHeight() / 2);
+
+		if (isPillFalling) {
+			setyPos(getyPos() + 1);
+		}
+		if (getyPos() >= 792) {
+			isPillFalling = false;
+		}
 		collisionBox = new Rectangle(getxPos(), getyPos(), getWidth(), getHeight());
 	}
 

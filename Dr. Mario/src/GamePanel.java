@@ -58,11 +58,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		title.setImage("dr_keith_title.png");
 		jar.setImage("jar.png");
 		pillHalf.setImage("pill_half.gif");
-		manager.addObject(title);
-		manager.addObject(border);
-		manager.addObject(doctorKeith);
-		manager.addObject(pillHalf);
-		manager.addObject(jar);
+		manager.addObject(title,1);
+		manager.addObject(border,1);
+		manager.addObject(doctorKeith,1);
+		manager.addObject(pillHalf,1);
+		manager.addObject(jar,1);
 		grid[9][9] = new Pill(450, 792, 32, 32);
 		CURRENT_STATE = MENU_STATE;
 		System.out.println("Width = " + pillHalf.getWidth() + ", Height = " + pillHalf.getHeight());
@@ -104,8 +104,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	}
 
 	public void paintMenuState(Graphics g) {
-		manager.draw(g);
-
+		manager.draw(g, 1);
+		manager.draw(g, 2);
 		// doctorKeith.render(g);
 	}
 
@@ -120,6 +120,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	public void updateMenuState() {
 		int width = Runner.frame.getWidth() + 352;
 		int height = Runner.frame.getHeight() + 607;
+		manager.update();
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
 
@@ -145,30 +146,30 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getKeyCode() == e.VK_SPACE) {
+			manager.addPills(2);
 			// System.err.println(spacePressed);
 //			if(!manager.getPill().inScene && manager.getPill()){
 			
 //			System.out.println(manager.getPill().moving);
-			if (spacePressed == 0) {
-				if (!manager.getPill().moving){
-//					manager.addObject(new Pill(doctorKeith.getxPos() + 30, doctorKeith.getyPos() + 50, 32, 32));
-					p = new Pill(doctorKeith.getxPos() + 30, doctorKeith.getyPos() + 50, 32, 32);
-					manager.addPills(p);
-					manager.movingPill = p;
-					System.out.println(p.moving);
-					
-				spacePressed = 1;
-
-				}
-			} else if (spacePressed == 1) {
-				if (!manager.getPill().moving){
-				p.setxPos(900 / 2);
-				p.moving = true;
-				spacePressed = 0;
-				p.moving = true;
-//				manager.getPill().setmoving(true);
-				}
-			}
+//			if (spacePressed == 0) {
+//				if (!manager.getPill().moving){
+////					manager.addObject(new Pill(doctorKeith.getxPos() + 30, doctorKeith.getyPos() + 50, 32, 32));
+//					p = new Pill(doctorKeith.getxPos() + 30, doctorKeith.getyPos() + 50, 32, 32);
+//					manager.movingPill = p;
+//					System.out.println(p.moving);
+//					
+//				spacePressed = 1;
+//
+//				}
+//			} else if (spacePressed == 1) {
+//				if (!manager.getPill().moving){
+//				p.setxPos(900 / 2);
+//				p.moving = true;
+//				spacePressed = 0;
+//				p.moving = true;
+////				manager.getPill().setmoving(true);
+//				}
+//			}
 //			}
 		} else if (e.getKeyCode() == e.VK_LEFT && manager.getPill().moving == true) {
 			System.out.println("Hi.");

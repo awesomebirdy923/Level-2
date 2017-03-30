@@ -5,8 +5,12 @@ import java.util.ArrayList;
 //import game.LeagueInvaders;
 
 public class ObjectManager {
-	ArrayList<Shape> objects;
-	ArrayList<Pill> pills;
+	ArrayList<Shape> objects1;
+	ArrayList<Shape> objects2;
+	ArrayList<Shape> objects3;
+	ArrayList<Pill> pills1;
+	ArrayList<Pill> pills2;
+	ArrayList<Pill> pills3;
 
 	private int score = 0;
 
@@ -14,47 +18,86 @@ public class ObjectManager {
 	int enemySpawnTime = 1000;
 
 	public Pill movingPill;
-	
+
 	public ObjectManager() {
-		objects = new ArrayList<Shape>();
-		pills = new ArrayList<Pill>();
+		objects1 = new ArrayList<Shape>();
+		pills1 = new ArrayList<Pill>();
 	}
 
-	public void addObject(Shape o) {
-		objects.add(o);
+	public void addObject(Shape o, int index) {
+		if (index == 1) {
+			objects1.add(o);
+		}
 	}
-	
-	public void addPills(Pill o) {
-		pills.add(o);
+
+	public void addPills(int index) {
+		if (!checkForFallingPills()) {
+			pills1.add(new Pill(450, 192, 32, 32));
+		}
+	}
+
+	private boolean checkForFallingPills() {
+		for (Pill p : pills1) {
+			if (p.isPillFalling) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public void update() {
-		for (int i = 0; i < objects.size(); i++) {
-			Shape o = objects.get(i);
+		for (int i = 0; i < objects1.size(); i++) {
+			Shape o = objects1.get(i);
 			o.update();
-
 		}
-
-		purgeObjects();
+		for (int j = 0; j < pills1.size(); j++){
+			Pill p = pills1.get(j);
+			p.update();
+		}
+		for(Pill p : pills1){
+			p.update();
+		}
+		
+		purgeobjects1();
 	}
 
-	public void draw(Graphics g) {
-		for (int i = 0; i < objects.size(); i++) {
-			Shape o = objects.get(i);
-			o.render(g);
-//			o.renderAsImage(g);
-		} for(int i = 0; i < pills.size(); i++){
-			Pill p = pills.get(i);
+	public void draw(Graphics g, int index) {
+//		if (index == 1) {
+//			for (int i = 0; i < objects1.size(); i++) {
+//				Shape o = objects1.get(i);
+//				o.render(g);
+//				// o.renderAsImage(g);
+//			}
+//			for (int i = 0; i < pills1.size(); i++) {
+//				Pill p = pills1.get(i);
+//				p.render(g);
+//			}
+//		} else if (index == 2) {
+//			for (int i = 0; i < objects1.size(); i++) {
+//				Shape o = objects1.get(i);
+//				o.render(g);
+//				// o.renderAsImage(g);
+//			}
+//			for (int i = 0; i < pills1.size(); i++) {
+//				Pill p = pills1.get(i);
+//				p.render(g);
+//			}
+//		}
+		for(Shape s : objects1){
+			s.render(g);
+		}
+		
+		for(Pill p : pills1){
 			p.render(g);
 		}
 	}
 
-	private void purgeObjects() {
-		for (int i = 0; i < objects.size(); i++) {
-			if (!objects.get(i).isAlive) {
-				objects.remove(i);
-			}
-		}
+	private void purgeobjects1() {
+//		for (int i = 0; i < objects1.size(); i++) {
+//			if (!objects1.get(i).isAlive) {
+//				objects1.remove(i);
+//			}
+//		}
 	}
 
 	// public void manageEnemies(){
@@ -66,10 +109,10 @@ public class ObjectManager {
 	// }
 
 	// public void checkCollision() {
-	// for (int i = 0; i < objects.size(); i++) {
-	// for (int j = i + 1; j < objects.size(); j++) {
-	// Shape o1 = objects.get(i);
-	// Shape o2 = objects.get(j);
+	// for (int i = 0; i < objects1.size(); i++) {
+	// for (int j = i + 1; j < objects1.size(); j++) {
+	// Shape o1 = objects1.get(i);
+	// Shape o2 = objects1.get(j);
 	//
 	// if(o1.collisionBox.intersects(o2.collisionBox)){
 	// if((o1 instanceof Alien && o2 instanceof Projectile) ||
@@ -99,12 +142,12 @@ public class ObjectManager {
 	}
 
 	public void reset() {
-		objects.clear();
+		objects1.clear();
 	}
 
 	// public void checkOnClick(int x, int y, boolean onClick){
-	// for (int i = 0; i < objects.size(); i++) {
-	// Shape o = objects.get(i);
+	// for (int i = 0; i < objects1.size(); i++) {
+	// Shape o = objects1.get(i);
 	// if(o.collisionBox.inside(x, y) && onClick){
 	// if(o instanceof QuitButton){
 	// System.out.println("Hi.");
@@ -124,46 +167,49 @@ public class ObjectManager {
 	}
 
 	public Pill getPill() {
-		if(pills.size() > 0){
-		for (int i = pills.size() - 1; i >= 0; i--) {
-			Shape pill = pills.get(i);
-			if (pill instanceof Pill) {
-				return (Pill) pill;
+		if (pills1.size() > 0) {
+			for (int i = pills1.size() - 1; i >= 0; i--) {
+				Shape pill = pills1.get(i);
+				if (pill instanceof Pill) {
+					return (Pill) pill;
+				}
 			}
-		}
 		}
 		return null;
 	}
 
-	boolean isPillFalling(){
-		for(Pill o : pills){
-			if(o.moving){
-			return true;	
-			} 
+	boolean isPillFalling() {
+		for (Pill o : pills1) {
+			if (o.moving) {
+				return true;
+			}
 		}
 		return false;
 	}
-	
-	void managePillCollision(){
-		
-		for (int i = pills.size() - 1; i >= 0; i--){
-			Pill p = pills.get(i);
-			if(p != movingPill){
-			if(p.collisionBox.intersects(movingPill.collisionBox)){
-				System.out.println("sdfghjkl;");
-				movingPill.moving = false;
-			}
-			}
-		}
-//		System.out.println("Moving: " + movingPill.moving);
-	}
-	
-	void managePillHalfCollision(){
-		for (Shape p: objects){
-			if(p instanceof PillHalf){
-//				if(p.collisionBox.intersects(p)){}
+
+	void managePillCollision() {
+
+		for (int i = pills1.size() - 1; i >= 0; i--) {
+			for (int j = pills1.size() - 1; i >= 0; i--) {
+				Pill p = pills1.get(i);
+				Pill p2 = pills1.get(j);
+				if (p != movingPill) {
+					if (p.collisionBox.intersects(p2.collisionBox)) {
+						System.out.println("sdfghjkl;");
+						p.isPillFalling = false;
+						p2.isPillFalling = false;
+					}
+				}
 			}
 		}
+		// System.out.println("Moving: " + movingPill.moving);
 	}
-	
+
+	void managePillHalfCollision() {
+		for (Shape p : objects1) {
+			if (p instanceof PillHalf) {
+				// if(p.collisionBox.intersects(p)){}
+			}
+		}
+	}
 }
