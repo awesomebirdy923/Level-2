@@ -135,7 +135,7 @@ public class Pill extends Shape {
 		if (getyPos() >= 792) {
 			isPillFalling = false;
 		}
-		collisionBox = new Rectangle(getxPos(), getyPos(), getWidth(), getHeight());
+		collisionBox = new Rectangle(getxPos(), getyPos(), getWidth() - 8, getHeight() - 8);
 	}
 
 }

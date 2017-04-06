@@ -189,8 +189,8 @@ public class ObjectManager {
 
 	void managePillCollision() {
 
-		for (int i = pills1.size() - 1; i >= 0; i--) {
-			for (int j = pills1.size() - 1; i >= 0; i--) {
+		for (int i = 0; i < pills1.size(); i++) {
+			for (int j = 0; j < pills1.size() - 1; j++) {
 				Pill p = pills1.get(i);
 				Pill p2 = pills1.get(j);
 				if (p != movingPill) {
