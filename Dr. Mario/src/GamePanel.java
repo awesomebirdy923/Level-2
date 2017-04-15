@@ -35,7 +35,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	private PillHalf pillHalf;
 	private int frames = 0;
 	private Pill p;
-
+	private Virus virus;
 	public GamePanel(int fpsCap) {
 		playSound("theme.wav");
 		border = new Shape(700, 80, 300, 300, true);
@@ -49,6 +49,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		background = new Shape(0, 0, 900, 900, true);
 		background.setImage("Background.png");
 		grid = new Shape[10][10];
+		virus = new Virus(200, 200, 92, 96, 2);
 		// pill =
 		// manager.addObject(pointlessSquare);
 		// manager.addObject(pill);
@@ -63,6 +64,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		manager.addObject(doctorKeith,1);
 		manager.addObject(pillHalf,1);
 		manager.addObject(jar,1);
+		manager.addVirus(virus);
 		grid[9][9] = new Pill(450, 792, 32, 32);
 		CURRENT_STATE = MENU_STATE;
 		System.out.println("Width = " + pillHalf.getWidth() + ", Height = " + pillHalf.getHeight());
@@ -227,6 +229,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 
 	public Pill getMovingPill(){
 		return p;
+	}
+	
+	private void collisionDetectViruses(Pill p){
+		
 	}
 	
 }

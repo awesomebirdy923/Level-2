@@ -11,6 +11,7 @@ public class ObjectManager {
 	ArrayList<Pill> pills1;
 	ArrayList<Pill> pills2;
 	ArrayList<Pill> pills3;
+	ArrayList<Virus> viruses;
 
 	private int score = 0;
 
@@ -22,6 +23,7 @@ public class ObjectManager {
 	public ObjectManager() {
 		objects1 = new ArrayList<Shape>();
 		pills1 = new ArrayList<Pill>();
+		viruses = new ArrayList<Virus>();
 	}
 
 	public void addObject(Shape o, int index) {
@@ -34,6 +36,10 @@ public class ObjectManager {
 		if (!checkForFallingPills()) {
 			pills1.add(new Pill(450, 192, 32, 32));
 		}
+	}
+	
+	public void addVirus(Virus v){
+		viruses.add(v);
 	}
 
 	private boolean checkForFallingPills() {
@@ -53,6 +59,10 @@ public class ObjectManager {
 		for (int j = 0; j < pills1.size(); j++){
 			Pill p = pills1.get(j);
 			p.update();
+		}
+		for (int j = 0; j < viruses.size(); j++){
+			Virus v = viruses.get(j);
+			v.update();
 		}
 		for(Pill p : pills1){
 			p.update();
@@ -89,6 +99,10 @@ public class ObjectManager {
 		
 		for(Pill p : pills1){
 			p.render(g);
+		}
+		
+		for(Virus v : viruses){
+			v.render(g);
 		}
 	}
 
@@ -211,5 +225,22 @@ public class ObjectManager {
 				// if(p.collisionBox.intersects(p)){}
 			}
 		}
+	}
+	
+	public Virus getVirus(){
+		if (viruses.size() > 0) {
+			for (int i = viruses.size() - 1; i >= 0; i--) {
+				Shape virus = viruses.get(i);
+				if (virus instanceof Virus) {
+					return (Virus) virus;
+				}
+			}
+		}
+		return null;
+	}
+	
+	public void manageVirusCollision(){
+		
+		
 	}
 }
