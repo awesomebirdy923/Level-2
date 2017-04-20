@@ -138,4 +138,6 @@ public class Pill extends Shape {
 		collisionBox = new Rectangle(getxPos(), getyPos(), getWidth() - 8, getHeight() - 8);
 	}
 
+
+	
 }

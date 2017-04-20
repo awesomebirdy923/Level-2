@@ -22,6 +22,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	private final int MENU_STATE = 1;
 	private final int LEVEL1_STATE = 2;
 	private final int LEVEL2_STATE = 3;
+	private final int LEVEL3_STATE = 4;
 	private ObjectManager manager;
 	private Pill pill;
 	private Shape doctorKeith;
@@ -36,6 +37,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	private int frames = 0;
 	private Pill p;
 	private Virus virus;
+	private Virus virus1;
+	
 	public GamePanel(int fpsCap) {
 		playSound("theme.wav");
 		border = new Shape(700, 80, 300, 300, true);
@@ -49,7 +52,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		background = new Shape(0, 0, 900, 900, true);
 		background.setImage("Background.png");
 		grid = new Shape[10][10];
-		virus = new Virus(200, 200, 92, 96, 2);
+		virus = new Virus(500, 800, 92/5, 96/5, 2);
+		virus1 = new Virus(400, 600, 92/5, 95/5, 1);
 		// pill =
 		// manager.addObject(pointlessSquare);
 		// manager.addObject(pill);
@@ -65,6 +69,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		manager.addObject(pillHalf,1);
 		manager.addObject(jar,1);
 		manager.addVirus(virus);
+		manager.addVirus(virus1);
 		grid[9][9] = new Pill(450, 792, 32, 32);
 		CURRENT_STATE = MENU_STATE;
 		System.out.println("Width = " + pillHalf.getWidth() + ", Height = " + pillHalf.getHeight());
@@ -86,7 +91,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			updateMenuState();
 		} else if (CURRENT_STATE == LEVEL1_STATE) {
 			updateLevel1State();
-		} else if (CURRENT_STATE == LEVEL1_STATE) {
+		} else if (CURRENT_STATE == LEVEL2_STATE) {
 			updateLevel2State();
 		}
 	}
@@ -100,29 +105,46 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			paintMenuState(g);
 		} else if (CURRENT_STATE == LEVEL1_STATE) {
 			paintLevel1State(g);
-		} else if (CURRENT_STATE == LEVEL1_STATE) {
+		} else if (CURRENT_STATE == LEVEL2_STATE) {
 			paintLevel2State(g);
 		}
 	}
 
 	public void paintMenuState(Graphics g) {
-		manager.draw(g, 1);
-		manager.draw(g, 2);
+
+		Shape menu = new Shape(0, 0, 500, 500, true);
+		menu.setImage("title_screen.png");
+		menu.render(g);
+		
 		// doctorKeith.render(g);
 	}
 
 	public void paintLevel1State(Graphics g) {
-
+		manager.draw(g, 1);
+		manager.draw(g, 2);
 	}
 
 	public void paintLevel2State(Graphics g) {
-
+		manager.addVirus(virus);
+		manager.addVirus(virus1);
+		manager.addVirus(new Virus(460, 700, 93/4, 96/4, 1));
+		manager.draw(g, 1);
 	}
 
 	public void updateMenuState() {
+
+	}
+
+	public void updateLevel1State() {
 		int width = Runner.frame.getWidth() + 352;
 		int height = Runner.frame.getHeight() + 607;
 		manager.update();
+		manager.manageVirusCollision();
+		if(manager.score == 2){
+			manager.score = 0;
+			manager.removeAllPills();
+			CURRENT_STATE = LEVEL2_STATE;
+		}
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
 
@@ -130,12 +152,21 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		}
 	}
 
-	public void updateLevel1State() {
-
-	}
-
 	public void updateLevel2State() {
+		int width = Runner.frame.getWidth() + 352;
+		int height = Runner.frame.getHeight() + 607;
+		manager.update();
+		manager.manageVirusCollision();
+		if(manager.score == 2){
+			manager.score = 0;
+			manager.removeAllPills();
+			CURRENT_STATE = LEVEL2_STATE;
+		}
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
 
+			}
+		}
 	}
 
 	@Override
@@ -147,6 +178,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
+		if(CURRENT_STATE == MENU_STATE){
+			if(e.getKeyCode() == e.VK_SPACE){
+				CURRENT_STATE = LEVEL1_STATE;
+			}
+		}
 		if (e.getKeyCode() == e.VK_SPACE) {
 			manager.addPills(2);
 			// System.err.println(spacePressed);
@@ -173,10 +209,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 //				}
 //			}
 //			}
-		} else if (e.getKeyCode() == e.VK_LEFT && manager.getPill().moving == true) {
+		} else if (e.getKeyCode() == e.VK_LEFT && manager.getPill().isPillFalling == true) {
 			System.out.println("Hi.");
 			manager.getPill().setxPos(manager.getPill().getxPos() - 10);
-		} else if (e.getKeyCode() == e.VK_RIGHT && manager.getPill().moving == true) {
+		} else if (e.getKeyCode() == e.VK_RIGHT && manager.getPill().isPillFalling == true) {
 			System.out.println("Hi.");
 			manager.getPill().setxPos(manager.getPill().getxPos() + 10);
 		} else if (e.getKeyCode() == e.VK_DOWN) {
@@ -229,10 +265,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 
 	public Pill getMovingPill(){
 		return p;
-	}
-	
-	private void collisionDetectViruses(Pill p){
-		
 	}
 	
 }

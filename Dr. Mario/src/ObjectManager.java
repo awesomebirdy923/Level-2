@@ -12,8 +12,11 @@ public class ObjectManager {
 	ArrayList<Pill> pills2;
 	ArrayList<Pill> pills3;
 	ArrayList<Virus> viruses;
+	Pill pill2 = null;
+	Pill pill = null;
+	Virus virus = null;
 
-	private int score = 0;
+	public int score = 0;
 
 	long enemyTimer = 0;
 	int enemySpawnTime = 1000;
@@ -240,7 +243,26 @@ public class ObjectManager {
 	}
 	
 	public void manageVirusCollision(){
-		
-		
+		for(Virus e : viruses){
+			virus = e;
+		}
+		for(Pill p : pills1){
+			pill = p;
+		}
+		if(virus.hitBox.intersects(pill.collisionBox)){
+			viruses.remove(virus);
+			virus.hitBox.setBounds(0,0,0,0);
+			pill.isPillFalling = false;
+			score+=1;
+		}
 	}
+	
+	public void removeAllPills(){
+		Pill pill2 = null;
+	for(Pill e : pills1){
+		pill2 = e;
+	}	
+	pills1.remove(pill2);
+	}
+	
 }
