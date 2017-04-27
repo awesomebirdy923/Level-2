@@ -243,26 +243,29 @@ public class ObjectManager {
 	}
 	
 	public void manageVirusCollision(){
-		for(Virus e : viruses){
-			virus = e;
+		for(int i = 0; i < viruses.size(); i++){
+			virus = viruses.get(i);
+			for(int j = 0; j < pills1.size(); j++){
+				pill = pills1.get(j);
+				if(virus.hitBox.intersects(pill.collisionBox)){
+					viruses.remove(virus);
+					virus.hitBox.setBounds(0,0,0,0);
+					pill.isPillFalling = false;
+					score+=1;
+				}
+				
+			}
 		}
-		for(Pill p : pills1){
-			pill = p;
-		}
-		if(virus.hitBox.intersects(pill.collisionBox)){
-			viruses.remove(virus);
-			virus.hitBox.setBounds(0,0,0,0);
-			pill.isPillFalling = false;
-			score+=1;
-		}
+		
+		
 	}
 	
 	public void removeAllPills(){
-		Pill pill2 = null;
-	for(Pill e : pills1){
-		pill2 = e;
+	for(int i = 0; i < pills1.size(); i++){
+		Pill pill = pills1.get(i);
+		pills1.remove(pill);
 	}	
-	pills1.remove(pill2);
+	
 	}
 	
 }

@@ -1,3 +1,4 @@
+/.DS_Store
 /Background.png
 /GamePanel$1.class
 /GamePanel.class
@@ -18,11 +19,10 @@
 /pill.png
 /pill_half.gif
 /theme.wav
+/title_screen.png
 /virus blue.jpeg
 /virus red.jpeg
 /virus yellow.jpg
-/virus_statan.gif
-/.DS_Store
 /virus_satan.gif
-/tite_screen.png
-/title_screen.png
+/win.png
+/end.png

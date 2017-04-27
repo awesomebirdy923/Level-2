@@ -24,7 +24,7 @@ public class Virus extends Shape {
 
 	public void render(Graphics g) {
 		if(getID() == 0){
-			setImage("virus_statan.gif");
+			setImage("virus_satan.gif");
 		} else if(getID() == 1){
 			setImage("blue_virus.gif");
 		} else if(getID() == 2){

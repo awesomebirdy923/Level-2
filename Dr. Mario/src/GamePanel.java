@@ -23,6 +23,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	private final int LEVEL1_STATE = 2;
 	private final int LEVEL2_STATE = 3;
 	private final int LEVEL3_STATE = 4;
+	private final int END_STATE = 5;
 	private ObjectManager manager;
 	private Pill pill;
 	private Shape doctorKeith;
@@ -36,8 +37,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	private PillHalf pillHalf;
 	private int frames = 0;
 	private Pill p;
-	private Virus virus;
-	private Virus virus1;
+	private static Virus virus;
+	private static Virus virus1;
+	private static Virus virus2;
+	private static Virus satan;
 	
 	public GamePanel(int fpsCap) {
 		playSound("theme.wav");
@@ -54,6 +57,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		grid = new Shape[10][10];
 		virus = new Virus(500, 800, 92/5, 96/5, 2);
 		virus1 = new Virus(400, 600, 92/5, 95/5, 1);
+		virus2 = new Virus(460, 700, 93/4, 96/4, 1);
+		satan = new Virus(900/2, 900/2, 200, 200, 0);
 		// pill =
 		// manager.addObject(pointlessSquare);
 		// manager.addObject(pill);
@@ -93,6 +98,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			updateLevel1State();
 		} else if (CURRENT_STATE == LEVEL2_STATE) {
 			updateLevel2State();
+		} else if (CURRENT_STATE == LEVEL3_STATE){
+			updateLevel3State();
+		} else if(CURRENT_STATE == END_STATE){
+			updateEndState();
 		}
 	}
 
@@ -107,6 +116,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			paintLevel1State(g);
 		} else if (CURRENT_STATE == LEVEL2_STATE) {
 			paintLevel2State(g);
+		} else if(CURRENT_STATE == LEVEL3_STATE){
+			paintLevel3State(g);
+		} else if(CURRENT_STATE == END_STATE){
+			paintEndState(g);
 		}
 	}
 
@@ -124,13 +137,30 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		manager.draw(g, 2);
 	}
 
-	public void paintLevel2State(Graphics g) {
+	public void addLevel2StateEntities(){
+		System.out.println("amkBDHWAHFEEH dFvuhafJIOJidhjchbvfhdfabh");
 		manager.addVirus(virus);
 		manager.addVirus(virus1);
-		manager.addVirus(new Virus(460, 700, 93/4, 96/4, 1));
+		manager.addVirus(virus2);
+	}
+	
+	public void addLevel3StateEntities(){
+		manager.addVirus(satan);
+	}
+	
+	public void paintLevel2State(Graphics g) {
+		//manager.addVirus(virus);
+		//manager.addVirus(virus1);
+		//manager.addVirus(new Virus(460, 700, 93/4, 96/4, 1));
 		manager.draw(g, 1);
 	}
 
+	public void paintLevel3State(Graphics g){
+		manager.draw(g, 1);
+	}
+	
+	
+	
 	public void updateMenuState() {
 
 	}
@@ -144,6 +174,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			manager.score = 0;
 			manager.removeAllPills();
 			CURRENT_STATE = LEVEL2_STATE;
+			addLevel2StateEntities();
 		}
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
@@ -152,15 +183,37 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		}
 	}
 
+	public void updateEndState(){
+		
+	}
+	
 	public void updateLevel2State() {
 		int width = Runner.frame.getWidth() + 352;
 		int height = Runner.frame.getHeight() + 607;
 		manager.update();
 		manager.manageVirusCollision();
-		if(manager.score == 2){
+		if(manager.score == 3){
 			manager.score = 0;
 			manager.removeAllPills();
-			CURRENT_STATE = LEVEL2_STATE;
+			CURRENT_STATE = LEVEL3_STATE;
+			addLevel3StateEntities();
+		}
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
+
+			}
+		}
+	}
+	public void updateLevel3State() {
+		int width = Runner.frame.getWidth() + 352;
+		int height = Runner.frame.getHeight() + 607;
+		manager.update();
+		manager.manageVirusCollision();
+		if(manager.score == 1){
+			manager.score = 0;
+			manager.removeAllPills();
+			CURRENT_STATE = END_STATE;
+			addEndStateEntities();
 		}
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
@@ -181,6 +234,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		if(CURRENT_STATE == MENU_STATE){
 			if(e.getKeyCode() == e.VK_SPACE){
 				CURRENT_STATE = LEVEL1_STATE;
+				
 			}
 		}
 		if (e.getKeyCode() == e.VK_SPACE) {
@@ -267,4 +321,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		return p;
 	}
 	
+	public void paintEndState(Graphics g){
+		manager.draw(g, 1);
+	}
+	
+	public void addEndStateEntities(){
+		Shape win = new Shape(0, 0, 900, 900, true);
+		win.setImage("end.png");
+		manager.addObject(win, 1);
+	}
 }
