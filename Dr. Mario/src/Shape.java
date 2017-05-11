@@ -9,10 +9,10 @@ import javax.imageio.ImageIO;
 
 public class Shape {
 	public boolean isAlive = true;
-	private int xPos;
-	private int yPos;
-	private int width;
-	private int height;
+	public int xPos;
+	public int yPos;
+	public int width;
+	public int height;
 	public Rectangle collisionBox;
 	private BufferedImage img;
 	private boolean isImage;
