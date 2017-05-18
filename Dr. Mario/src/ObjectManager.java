@@ -1,4 +1,4 @@
-aaaasw
+
 import java.awt.Graphics;
 import java.util.ArrayList;
 
@@ -15,6 +15,8 @@ public class ObjectManager {
 	Pill pill2 = null;
 	Pill pill = null;
 	Virus virus = null;
+	int thrownPills;
+	public int pillLimit = 2;
 
 	public int score = 0;
 
@@ -38,10 +40,12 @@ public class ObjectManager {
 	public void addPills(int index) {
 		if (!checkForFallingPills()) {
 			pills1.add(new Pill(450, 192, 32, 32));
+			thrownPills++;
+
 		}
 	}
-	
-	public void addVirus(Virus v){
+
+	public void addVirus(Virus v) {
 		viruses.add(v);
 	}
 
@@ -59,62 +63,62 @@ public class ObjectManager {
 			Shape o = objects1.get(i);
 			o.update();
 		}
-		for (int j = 0; j < pills1.size(); j++){
+		for (int j = 0; j < pills1.size(); j++) {
 			Pill p = pills1.get(j);
 			p.update();
 		}
-		for (int j = 0; j < viruses.size(); j++){
+		for (int j = 0; j < viruses.size(); j++) {
 			Virus v = viruses.get(j);
 			v.update();
 		}
-		for(Pill p : pills1){
+		for (Pill p : pills1) {
 			p.update();
 		}
-		
+
 		purgeobjects1();
 	}
 
 	public void draw(Graphics g, int index) {
-//		if (index == 1) {
-//			for (int i = 0; i < objects1.size(); i++) {
-//				Shape o = objects1.get(i);
-//				o.render(g);
-//				// o.renderAsImage(g);
-//			}
-//			for (int i = 0; i < pills1.size(); i++) {
-//				Pill p = pills1.get(i);
-//				p.render(g);
-//			}
-//		} else if (index == 2) {
-//			for (int i = 0; i < objects1.size(); i++) {
-//				Shape o = objects1.get(i);
-//				o.render(g);
-//				// o.renderAsImage(g);
-//			}
-//			for (int i = 0; i < pills1.size(); i++) {
-//				Pill p = pills1.get(i);
-//				p.render(g);
-//			}
-//		}
-		for(Shape s : objects1){
+		// if (index == 1) {
+		// for (int i = 0; i < objects1.size(); i++) {
+		// Shape o = objects1.get(i);
+		// o.render(g);
+		// // o.renderAsImage(g);
+		// }
+		// for (int i = 0; i < pills1.size(); i++) {
+		// Pill p = pills1.get(i);
+		// p.render(g);
+		// }
+		// } else if (index == 2) {
+		// for (int i = 0; i < objects1.size(); i++) {
+		// Shape o = objects1.get(i);
+		// o.render(g);
+		// // o.renderAsImage(g);
+		// }
+		// for (int i = 0; i < pills1.size(); i++) {
+		// Pill p = pills1.get(i);
+		// p.render(g);
+		// }
+		// }
+		for (Shape s : objects1) {
 			s.render(g);
 		}
-		
-		for(Pill p : pills1){
+
+		for (Pill p : pills1) {
 			p.render(g);
 		}
-		
-		for(Virus v : viruses){
+
+		for (Virus v : viruses) {
 			v.render(g);
 		}
 	}
 
 	private void purgeobjects1() {
-//		for (int i = 0; i < objects1.size(); i++) {
-//			if (!objects1.get(i).isAlive) {
-//				objects1.remove(i);
-//			}
-//		}
+		// for (int i = 0; i < objects1.size(); i++) {
+		// if (!objects1.get(i).isAlive) {
+		// objects1.remove(i);
+		// }
+		// }
 	}
 
 	// public void manageEnemies(){
@@ -229,8 +233,8 @@ public class ObjectManager {
 			}
 		}
 	}
-	
-	public Virus getVirus(){
+
+	public Virus getVirus() {
 		if (viruses.size() > 0) {
 			for (int i = viruses.size() - 1; i >= 0; i--) {
 				Shape virus = viruses.get(i);
@@ -241,31 +245,34 @@ public class ObjectManager {
 		}
 		return null;
 	}
-	
-	public void manageVirusCollision(){
-		for(int i = 0; i < viruses.size(); i++){
+
+	public void manageVirusCollision() {
+		for (int i = 0; i < viruses.size(); i++) {
 			virus = viruses.get(i);
-			for(int j = 0; j < pills1.size(); j++){
+			for (int j = 0; j < pills1.size(); j++) {
 				pill = pills1.get(j);
-				if(virus.hitBox.intersects(pill.collisionBox)){
+				if (virus.hitBox.intersects(pill.collisionBox)) {
 					viruses.remove(virus);
-					virus.hitBox.setBounds(0,0,0,0);
+					virus.hitBox.setBounds(0, 0, 0, 0);
 					pill.isPillFalling = false;
-					score+=1;
+					score += 1;
 				}
-				
+
 			}
 		}
-		
-		
+
 	}
-	
-	public void removeAllPills(){
-	for(int i = 0; i < pills1.size(); i++){
-		Pill pill = pills1.get(i);
-		pills1.remove(pill);
-	}	
-	
+
+	public void removeAllPills() {
+		for (int i = 0; i < pills1.size(); i++) {
+			Pill pill = pills1.get(i);
+			pills1.remove(pill);
+		}
+
 	}
-	
+
+	public boolean checkForPillLimit() {
+		return thrownPills > pillLimit;
+	}
+
 }
